@@ -1,0 +1,30 @@
+<?php
+    include ("library-connection.php");
+
+    $sql1="SELECT * FROM books_tab where book_id='CS100'";
+    $result1 = $connect->query($sql1);
+    $row1 = $result1->fetch_assoc();
+
+    $author_array = array();
+    $book_title_array = array();
+    $book_id_array = array();
+    $book_price_array = array();
+    $book_cover_array = array();
+    $book_pub_array = array();
+    $book_edt_array = array();
+    $book_year_array = array();
+    $book_dsc_array = array();
+    $sql2="SELECT * FROM books_tab";
+    $result2=$connect->query($sql2);
+    while($row2 = $result2->fetch_assoc()){
+        $author_array[] = $row2['author_name'];
+        $book_title_array[] = $row2['book_title'];
+        $book_id_array[] = $row2['book_id'];
+        $book_price_array[] = $row2['price'];
+        $book_cover_array[] = $row2['cover_pic'];
+        $book_pub_array[] = $row2['publisher'];
+        $book_edt_array[] = $row2['edition_no'];
+        $book_year_array[] = $row2['year_of_publication'];
+        $book_dsc_array[] = $row2['description'];
+    }
+?>
