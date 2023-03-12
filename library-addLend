@@ -1,0 +1,42 @@
+<?php
+    include("library-connection.php");
+    $lend_id = $_POST['lend_id'];
+    $lend_book_id = $_POST['lend_book_id'];
+    $lend_user_id = $_POST['lend_user_id'];
+    $lend_date = $_POST['lend_date'];
+    $return_date_bef = $_POST['return_date'];
+    $lend_stat = $_POST['lend_stat'];
+    $lend_remarks = $_POST['lend_remarks'];    
+    $bookbool = false;
+    $userbool = false;
+
+    //Make sure book exists
+    $sqlbook = "SELECT * FROM books_tab";
+    $resbook = $connect->query($sqlbook);
+    while($bookrow = $resbook->fetch_assoc()){
+        if ($bookrow['book_id'] == $lend_book_id) $bookbool = true;
+    }
+
+    //Make sure user exists
+    $sqluser = "SELECT * FROM users_tab";
+    $resuser = $connect->query($sqluser);
+    while($userrow = $resuser->fetch_assoc()){
+        if ($userrow['user_id'] == $lend_user_id) $userbool = true;
+    }
+
+
+    //If valid input, insert into database
+    if($bookbool and $userbool){
+        $sql = "INSERT INTO lending_tab (lid, lending_id, book_id, user_id, date_of_lend, date_of_return, stat, remarks) 
+        VALUES ('', '$lend_id', '$lend_book_id', '$lend_user_id', '$lend_date', '$lend_date', '$lend_stat', '$lend_remarks')";   
+        
+        $result = $connect->query($sql);
+
+        if ($result == FALSE)
+        {
+            echo "Error: ". $connect->error;
+        }
+    }
+    header('Location: library-home.php');
+    exit;
+?>
