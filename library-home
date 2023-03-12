@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Library</title>
+		<link rel="stylesheet" href="css\libcss.css" />
+		<?php include 'library-home-php.php';?>
+		<script>
+			function showAddBook(){
+				document.getElementById('addBook').style.display = 'block';
+				document.getElementById('bookBack').style.display = 'block';
+				document.getElementById('userBack').style.display = 'none';
+				document.getElementById('addUser').style.display = 'none';
+				document.getElementById('lendBack').style.display = 'none';
+				document.getElementById('addLend').style.display = 'none';
+				document.getElementById('books').style.display = 'none';
+			}
+			function showAddUser(){
+				document.getElementById('addUser').style.display = 'block';
+				document.getElementById('userBack').style.display = 'block';
+				document.getElementById('bookBack').style.display = 'none';
+				document.getElementById('addBook').style.display = 'none';
+				document.getElementById('lendBack').style.display = 'none';
+				document.getElementById('addLend').style.display = 'none';
+				document.getElementById('books').style.display = 'none';
+			}
+			function showAddLend(){
+				document.getElementById('addUser').style.display = 'none';
+				document.getElementById('userBack').style.display = 'none';
+				document.getElementById('bookBack').style.display = 'none';
+				document.getElementById('addBook').style.display = 'none';
+				document.getElementById('lendBack').style.display = 'block';
+				document.getElementById('addLend').style.display = 'block';
+				document.getElementById('books').style.display = 'none';
+			}
+			function toMenu(){
+				document.getElementById('books').style.display = 'flex';
+				document.getElementById('bookBack').style.display = 'none';
+				document.getElementById('userBack').style.display = 'none';
+				document.getElementById('addBook').style.display = 'none';
+				document.getElementById('addUser').style.display = 'none';
+				document.getElementById('lendBack').style.display = 'none';
+				document.getElementById('addLend').style.display = 'none';
+			}
+			function generateCards(){
+				//Convert php lists to JavaScript lists
+				var authors = <?php echo json_encode($author_array) ?>;
+				var bookTitles = <?php echo json_encode($book_title_array) ?>;
+				var bookIds = <?php echo json_encode($book_id_array) ?>;
+				var bookPrices = <?php echo json_encode($book_price_array) ?>;
+				var bookCovers = <?php echo json_encode($book_cover_array) ?>;
+				var bookPubs = <?php echo json_encode($book_pub_array) ?>;
+				var bookEdts = <?php echo json_encode($book_edt_array) ?>;
+				var bookYears = <?php echo json_encode($book_year_array) ?>;
+				var bookDscs = <?php echo json_encode($book_dsc_array) ?>;
+				var len = bookIds.length;
+				for(var i = 0; i < len; i++){ //Print each on book divs
+					//create container divs
+					var newDivBook = document.createElement('div');
+					var newDivBookCard = document.createElement('div');
+					newDivBook.className = 'book';
+					newDivBookCard.className = 'bookCard';
+
+					//Display Image
+					var bookCov = bookCovers[i];
+					var bookImg = document.createElement('img');
+					bookImg.setAttribute("src", bookCov);
+					bookImg.setAttribute("width", 100);
+					newDivBookCard.appendChild(bookImg);
+
+					//Display info
+					newDivBookCard.innerHTML += ("<br><b>Book Title:</b> " + bookTitles[i] + "<br><b>Author:</b> " + authors[i]
+					+ "<br><b>Book ID:</b> " + bookIds[i] + "<br><b>Book Price:</b> " + bookPrices[i] + "<br><b>Book Publisher:</b> " + bookPubs[i]
+					+ "<br><b>Book Edition:</b> " + bookEdts[i] + "<br><b>Book Year:</b> " + bookYears[i] + "<br><b>Description:</b> " + bookDscs[i]);
+					newDivBook.appendChild(newDivBookCard);
+					document.getElementById('books').appendChild(newDivBook);
+				}
+			}
+		</script>
+	</head>
+	<body onload="generateCards()">
+		<!-- Title/NavBar -->
+		<center><h1>Cade's Epic Library</h1></center>
+		<div class="menBar">
+			<div class="menOpt" onclick="showAddBook()"> Add Book </div>
+			<div class="menOpt" onclick="showAddUser()"> Add User </div>
+			<div class="menOpt" onclick="showAddLend()"> Lend Book </div>
+		</div>
+		<!-- Title/NavBar -->
+
+		<!-- Books -->
+		<div class="books" id="books"> 
+			
+		</div>
+		<!-- Books -->
+		
+		<!-- Add Book -->
+		<center><div class="addThing" id="addBook"> 
+			<form action="library-addbook.php" name="bookForm" method="POST">
+				<p1> Book ID: </p1> <input class="inp" type="text" name = "book_id"> <br>
+				<p1> Author Name: </p1> <input class="inp" type="text" name = "aName"> <br>
+				<p1> Book Title: </p1> <input class="inp" type="text" name = "Ttl"> <br>
+				<p1> Price: </p1> <input class="inp" type="text" name = "Price"> <br>
+				<p1> Publisher: </p1> <input class="inp" type="text" name = "pub"> <br>
+				<p1> Edition: </p1> <input class="inp" type="text" name = "ed"> <br>
+				<p1> Year of Publication: </p1> <input class="inp" type="text" name = "yop"> <br>
+				<p1> Description: </p1> <input class="inp" type="text" name = "Dsc"> <br>
+				<input class="addBtn" type="submit"> </input>
+			</form>
+		</div></center>
+		<center> <a class="backBtn" href="javascript:void(0)" id="bookBack" onclick="toMenu()"> Back </a> </center>
+		<!-- Add Book -->
+
+		<!-- Add User -->
+		<center><div class="addThing" id="addUser"> 
+			<form action="library-addbook.php" name="authorForm" method="POST">
+				<p1> User ID: </p1> <input class="inp" type="text" name = "user_id"> <br>
+				<p1> User Name: </p1> <input class="inp" type="text" name = "uName"> <br>
+				<p1> Password: </p1> <input class="inp" type="text" name = "uPsw"> <br>
+				<p1> Adress: </p1> <input class="inp" type="text" name = "uAdd"> <br>
+				<p1> Phone Number: </p1> <input class="inp" type="text" name = "uPhone"> <br>
+				<p1> Email: </p1> <input class="inp" type="text" name = "uEmail"> <br>
+				<input class="addBtn" type="submit"> </input>
+			</form>
+		</div></center>
+		<center> <a class="backBtn" href="javascript:void(0)" id="userBack" onclick="toMenu()"> Back </a> </center>
+		<!-- Add User -->
+
+		<!-- Add Lend -->
+		<center><div class="addThing" id="addLend"> 
+			<form action="library-addlend.php" target="_self" name="lendForm" method="POST">
+				<p1> Lend ID: </p1> <input class="inp" type="text" name = "lend_id"> <br>
+				<p1> Book ID: </p1> <input class="inp" type="text" name = "lend_book_id"> <br>
+				<p1> User ID: </p1> <input class="inp" type="text" name = "lend_user_id"> <br>
+				<p1> Date of Lend: </p1> <input class="inp" type="date" name = "lend_date"> <br>
+				<p1> Date of Return: </p1> <input class="inp" type="date" name = "return_date"> <br>
+				<p1> Status: </p1> <input class="inp" type="text" name = "lend_stat"> <br>
+				<p1> Remarks: </p1> <input class="inp" type="text" name = "lend_remarks"> <br>
+				<input class="addBtn" type="submit"> </input>
+			</form>
+		</div></center>
+		<center> <a class="backBtn" href="javascript:void(0)" id="lendBack" onclick="toMenu()"> Back </a> </center>
+		<!-- Add Lend -->
+		
+</html>
